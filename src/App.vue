@@ -1,19 +1,20 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <input placeholder='Insert playlist link ...' />
+    <Canva />
   </div>
 </template>
 
-<script>
-import HelloWorld from "./components/HelloWorld.vue";
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import Canva from "./components/Canva.vue";
 
-export default {
-  name: "App",
+@Component({
   components: {
-    HelloWorld,
+    Canva,
   },
-};
+})
+export default class App extends Vue {}
 </script>
 
 <style>
