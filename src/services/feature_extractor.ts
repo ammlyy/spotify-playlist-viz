@@ -71,7 +71,7 @@ class Extractor {
         this.model.run();
 
         // `output` is unpacked ndarray (regular nested javascript array)
-        const output = this.model.getOutput();
+        const output = this.model.getOutputScaled();
 
         console.log(output)
             }
