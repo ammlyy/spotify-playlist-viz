@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <input v-model="link" placeholder="Insert playlist link ..." />
-    <button v-on:click="searchPlaylist"> Search playlist </button>
+    <button v-on:click="compute"> Search playlist </button>
     <Canva />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Extractor } from './services/audio'
+import { Extractor } from './services/feature_extractor'
 
 import Canva from "./components/Canva.vue";
 
@@ -25,8 +25,10 @@ export default class App extends Vue {
     this.extractor.init()
   }
 
-  searchPlaylist():void{
+  compute():void{
     this.extractor.fetchPlaylist(this.link)
+    .then( (songs) => this.extractor.extractFeatures(songs) )
+    .then((features:any) => this.extractor.trainModel(features) )
   }
   
 }
