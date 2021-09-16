@@ -9,12 +9,12 @@ class Drawable {
   private geometry: any
   private material: any
   private mesh: any
-  private mouse: THREE.Vector2 = new THREE.Vector2(1,1)
+  private mouse: THREE.Vector2 = new THREE.Vector2(1, 1)
   private raycaster: THREE.Raycaster = new THREE.Raycaster()
 
-  constructor(){
-    this.mouse = new THREE.Vector2(1,1) 
-    window.addEventListener( 'resize', this.onWindowResize.bind(this) );
+  constructor() {
+    this.mouse = new THREE.Vector2(1, 1)
+    window.addEventListener('resize', this.onWindowResize.bind(this));
 
   }
   init() {
@@ -26,57 +26,58 @@ class Drawable {
 
       this.scene = new THREE.Scene();
       this.material = new THREE.MeshBasicMaterial();
-      this.geometry =  new THREE.IcosahedronGeometry( 0.5, 3 );
+      this.geometry = new THREE.IcosahedronGeometry(0.5, 3);
       this.geometry.scale(0.2, 0.2, 0.2)
       this.renderer = new THREE.WebGLRenderer({ antialias: true });
-      this.renderer.setSize(container.clientWidth, container.clientHeight);     
-      this.renderer.setPixelRatio( window.devicePixelRatio );
+      this.renderer.setSize(container.clientWidth, container.clientHeight);
+      this.renderer.setPixelRatio(window.devicePixelRatio);
 
-      this.renderer.domElement.addEventListener( 'mousemove', this.onMouseMove.bind(this), false );
+      this.renderer.domElement.addEventListener('mousemove', this.onMouseMove.bind(this), false);
 
-    
-      this.controls = new OrbitControls( this.camera, this.renderer.domElement );
+
+      this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
       container.appendChild(this.renderer.domElement);
     }
 
   }
 
-  instantiate(length:number, positions:number[][]){
+  instantiate(length: number, positions: number[][]) {
     let matrix = new THREE.Matrix4();
-    this.mesh = new THREE.InstancedMesh( this.geometry, this.material, length );
-    for ( let i = 0; i < length; i ++ ) {
-      matrix = this.translateMatrix( matrix, positions[i] );
-      this.mesh.setMatrixAt( i, matrix );
-      const c=  this.getColor(positions[i])
+    this.mesh = new THREE.InstancedMesh(this.geometry, this.material, length);
+    for (let i = 0; i < length; i++) {
+      matrix = this.translateMatrix(matrix, positions[i]);
+      this.mesh.setMatrixAt(i, matrix);
+      const c = this.getColor(positions[i])
       this.mesh.setColorAt(i, c)
     }
     this.scene.add(this.mesh)
   }
 
 
-  translateMatrix(matrix: THREE.Matrix4, xyz: number[]){
+  translateMatrix(matrix: THREE.Matrix4, xyz: number[]) {
     const position = new THREE.Vector3();
-    position.x = xyz[0] 
+    position.x = xyz[0]
     position.y = xyz[1]
     position.z = xyz[2]
 
-		matrix.setPosition( position ); // write new positon back
-		
+    matrix.setPosition(position); // write new positon back
+
     return matrix
   }
 
-  getColor(xyz:number[]):THREE.Color{
+  getColor(xyz: number[]): THREE.Color {
     return new THREE.Color(
-      (xyz[0]+1)/2, (xyz[1]+1)/2, (xyz[2]+1)/2
+      (xyz[0] + 1) / 2, (xyz[1] + 1) / 2, (xyz[2] + 1) / 2
     )
   }
 
-  onMouseMove( event:any ) {
+  onMouseMove(event: any) {
 
     event.preventDefault();
-      this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-      this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;  
+    const boundingBox = this.renderer.domElement.getBoundingClientRect();
+    this.mouse.x = ((event.clientX - boundingBox.left) / boundingBox.width) * 2 - 1;
+    this.mouse.y = - ((event.clientY - boundingBox.top) / boundingBox.height) * 2 + 1;
   }
 
   onWindowResize() {
@@ -84,27 +85,25 @@ class Drawable {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
 
-    this.renderer.setSize( window.innerWidth, window.innerHeight );
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
 
   }
 
   render() {
-   this.raycaster.setFromCamera( this.mouse, this.camera );
-    if(this.mesh)
-    {
-      const intersection = this.raycaster.intersectObject( this.mesh );
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    if (this.mesh) {
+      const intersection = this.raycaster.intersectObject(this.mesh);
 
-      if ( intersection.length > 0 ) {
-        const instanceId = intersection[ 0 ].instanceId;
-        console.log(instanceId)
+      if (intersection.length > 0) {
+        const instanceId = intersection[0].instanceId;
         const color = new THREE.Color()
-        this.mesh.setColorAt( instanceId, color.setHex( Math.random() * 0xffffff ) );
+        this.mesh.setColorAt(instanceId, color.setHex(Math.random() * 0xffffff));
         this.mesh.instanceColor.needsUpdate = true;
       }
     }
     this.renderer.render(this.scene, this.camera);
   }
-    
+
   animate() {
     requestAnimationFrame(this.animate.bind(this));
     this.controls.update()

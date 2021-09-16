@@ -29,7 +29,6 @@ export default class Canva extends Vue {
 <style scoped>
 #container{
   height: 400px;
-  width: 1000px;
   margin-left:auto;
   margin-right: auto;
   border: 1px solid gray;}
