@@ -15,6 +15,12 @@ export default class Canva extends Vue {
   mounted(): void{
     this.drw.init()
     this.drw.animate()
+    this.$parent.$on('dataChanged', this.drawPlaylist)
+
+  }
+
+  drawPlaylist(points:any){
+    this.drw.instantiate(points.length, points)
   }
 
 }
@@ -24,5 +30,7 @@ export default class Canva extends Vue {
 #container{
   height: 400px;
   width: 1000px;
+  margin-left:auto;
+  margin-right: auto;
   border: 1px solid gray;}
 </style>

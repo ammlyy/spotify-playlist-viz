@@ -2,7 +2,7 @@
   <div id="app">
     <input v-model="link" placeholder="Insert playlist link ..." />
     <button v-on:click="compute"> Search playlist </button>
-    <Canva />
+    <Canva ref='canvas'/>
   </div>
 </template>
 
@@ -29,6 +29,8 @@ export default class App extends Vue {
     this.extractor.fetchPlaylist(this.link)
     .then( (songs) => this.extractor.extractFeatures(songs) )
     .then((features:any) => this.extractor.trainModel(features) )
+    .then((points:any) => this.$emit('dataChanged', points) )
+
   }
   
 }

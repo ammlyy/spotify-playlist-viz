@@ -12,7 +12,7 @@ class Extractor {
             this.access.setAccessToken(process.env.VUE_APP_SPOTI_TKN)
         
         this.model = new TSNE({
-            dim: 2,
+            dim: 3,
             perplexity: 30.0,
             earlyExaggeration: 4.0,
             learningRate: 100.0,
@@ -31,6 +31,7 @@ class Extractor {
                     (data.body as any).tracks.items.forEach((song: any) => { // ts type error, the server response has different format
                         songs.push(song.track.id)
                     })
+                    console.log('Totally fetched songs: ', songs.length)
                     resolve(songs)
                 }, err => {
                     console.log('something went wrong', err)
@@ -65,16 +66,15 @@ class Extractor {
         })
     }
 
-    trainModel(features: any) {
-        console.log(features)
+    trainModel(features: any): any{
         this.model.init({data: features})
         this.model.run();
 
         // `output` is unpacked ndarray (regular nested javascript array)
-        const output = this.model.getOutputScaled();
+        return this.model.getOutputScaled();
+}
 
-        console.log(output)
-            }
+
 
 }
 
