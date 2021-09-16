@@ -1,5 +1,7 @@
 # spotify_playlist_viz
 
+A spotify playlist visualizer based on dimensionality reduction technique (t-SNE) and three js rendering.
+
 ## Project setup
 ```
 npm install
