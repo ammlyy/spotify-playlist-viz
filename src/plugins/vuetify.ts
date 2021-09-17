@@ -4,7 +4,7 @@ import Vuetify from "vuetify/lib/framework";
 Vue.use(Vuetify, {
     iconfont:'md',
     theme: {
-        dark: false,
+        dark: true,
       },
       themes: {
         light: {

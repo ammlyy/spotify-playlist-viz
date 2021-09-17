@@ -17,7 +17,6 @@ export default class Canva extends Vue {
   }
 
   drawPlaylist(points: any) {
-    console.log('received')
     this.drw.instantiate(points.length, points);
   }
 }

@@ -27,8 +27,11 @@ class Drawable {
       );
       this.camera.position.z = 2;
       this.camera.lookAt(0.0, 0.0, 0.0);
+      const light = new THREE.DirectionalLight(0xfffff)
 
-      this.scene = new THREE.Scene();
+      this.scene = new THREE.Scene();    
+      this.scene.add(light)
+
       this.material = new THREE.MeshBasicMaterial();
       this.geometry = new THREE.IcosahedronGeometry(0.5, 3);
       this.geometry.scale(0.2, 0.2, 0.2);
@@ -42,17 +45,14 @@ class Drawable {
         this.onMouseMove.bind(this),
         false
       );
-      const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-      const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
-      const cube = new THREE.Mesh( geometry, material );
-      this.scene.add( cube );
       this.controls = new OrbitControls(this.camera, container);
+      this.controls.minDistance = 0.7;
+      this.controls.maxDistance = 5;
     }
   }
 
   instantiate(length: number, positions: number[][]) {
     this.clear();
-    console.log(positions)
     let matrix = new THREE.Matrix4();
     this.mesh = new THREE.InstancedMesh(this.geometry, this.material, length);
     for (let i = 0; i < length; i++) {
@@ -66,9 +66,9 @@ class Drawable {
 
   translateMatrix(matrix: THREE.Matrix4, xyz: number[]) {
     const position = new THREE.Vector3();
-    position.x = xyz[0];
-    position.y = xyz[1];
-    position.z = xyz[2];
+    position.x = xyz[0] * 2;
+    position.y = xyz[1] * 2;
+    position.z = xyz[2] * 2;
 
     matrix.setPosition(position); // write new positon back
 

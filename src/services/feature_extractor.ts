@@ -2,10 +2,26 @@ import SpotifyWebApi from "spotify-web-api-node";
 //@ts-ignore
 import TSNE from "tsne-js";
 
-class Extractor {
+interface Song {
+  title: string,
+  artist: string,
+  id: string
+}
+
+interface Playlist {
+  title: string,
+  description: string,
+  author: string,
+  songs_list: Array<Song>
+}
+class Extractor implements Playlist {
   private access = new SpotifyWebApi();
   private model: TSNE;
   private songs: Array<string> = [];
+  title:string = ""
+  description:string = ""
+  author:string = ""
+  songs_list: Array<Song> = []
 
   init() {
     if (process.env.VUE_APP_SPOTI_TKN)
@@ -21,30 +37,32 @@ class Extractor {
     });
   }
 
-  fetchPlaylist(link: string): Promise<Array<string>> {
+  fetchPlaylist(link: string): Promise<Array<Song>> {
     const id = link.split("/")[4];
     this.songs = [];
 
     return new Promise((resolve) => {
-      this.access.getPlaylistTracks(id).then(
-        (data) => {
-          (data.body as any).tracks.items.forEach((song: any) => {
-            // ts type error, the server response has different format
-            this.songs.push(song.track.id);
-          });
-          console.log("Totally fetched songs: ", this.songs.length);
-          resolve(this.songs);
-        },
-        (err) => {
-          console.log("something went wrong", err);
-        }
-      );
+      this.access.getPlaylist(id).then((response) => {
+        this.title = response.body.name
+        this.author = response.body.owner.display_name ? response.body.owner.display_name : ""
+        this.description = response.body.description ? response.body.description : ""
+        response.body.tracks.items.forEach((song:any)=>{
+          this.songs_list.push({
+            title:song.track.name,
+            artist: song.track.artists[0].name,
+            id: song.track.id
+          })
+          
+        });
+        resolve(this.songs_list)
+      })
+   
     });
   }
 
   extractFeatures(song_ids: string[]): Promise<Array<number[]>> {
     const features: Array<number[]> = [];
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.access.getAudioFeaturesForTracks(song_ids).then((response: any) => {
         response.body.audio_features.forEach((s: any) => {
           features.push([
@@ -68,11 +86,11 @@ class Extractor {
     });
   }
 
-  trainModel(features: any): any {
-    this.model.init({ data: features });
-    this.model.run();
-    // `output` is unpacked ndarray (regular nested javascript array)
-    return this.model.getOutputScaled();
+  trainModel(features: Array<number[]>): Array<number[]> {
+      this.model.init({ data: features });
+      this.model.run();
+      const out = this.model.getOutputScaled();
+      return out
   }
 }
 
