@@ -41,7 +41,7 @@ export default class Canva extends Vue {
       this.renderer = new THREE.WebGLRenderer({
         antialias: true,
         canvas: container,
-        alpha: true
+        alpha: true,
       });
       this.renderer.setClearColor(0x000000, 1);
       this.renderer.setSize(container.clientWidth, container.clientHeight);
@@ -58,14 +58,20 @@ export default class Canva extends Vue {
 
       this.animate();
 
-      this.$root.$children[0].$on("dataChanged", (points:any) =>  this.instantiate(points.length, points));
+      this.$root.$children[0].$on("dataChanged", (points: any) =>
+        this.instantiate(points.length, points)
+      );
     }
   }
 
   instantiate(length: number, positions: number[][]) {
     this.clear();
-    const axesHelper = new THREE.AxesHelper( 5 ).setColors(new THREE.Color(255,255,25), new THREE.Color(255,255,25),new THREE.Color(255,255,25),);
-    this.scene.add( axesHelper );
+    const axesHelper = new THREE.AxesHelper(5).setColors(
+      new THREE.Color(255, 255, 25),
+      new THREE.Color(255, 255, 25),
+      new THREE.Color(255, 255, 25)
+    );
+    this.scene.add(axesHelper);
 
     let matrix = new THREE.Matrix4();
     this.mesh = new THREE.InstancedMesh(this.geometry, this.material, length);
@@ -82,7 +88,7 @@ export default class Canva extends Vue {
   translateMatrix(matrix: THREE.Matrix4, xyz: number[]) {
     const position = new THREE.Vector3();
     position.x = xyz[0] * 3;
-    position.y = xyz[1] ;
+    position.y = xyz[1];
     position.z = 0;
 
     matrix.setPosition(position); // write new positon back
@@ -124,10 +130,9 @@ export default class Canva extends Vue {
         const instanceId = intersection[0].instanceId
           ? intersection[0].instanceId
           : 0;
-        if(this.instance_id != instanceId)
-        {
+        if (this.instance_id != instanceId) {
           this.instance_id = instanceId;
-          this.$emit('selectedSong', this.instance_id)
+          this.$emit("selectedSong", this.instance_id);
         }
       }
     }

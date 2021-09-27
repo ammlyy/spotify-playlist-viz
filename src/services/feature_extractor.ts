@@ -3,25 +3,25 @@ import SpotifyWebApi from "spotify-web-api-node";
 import TSNE from "tsne-js";
 
 interface Song {
-  title: string,
-  artist: string,
-  img: string,
-  id: string
+  title: string;
+  artist: string;
+  img: string;
+  id: string;
 }
 
 interface Playlist {
-  title: string,
-  description: string,
-  author: string,
-  songs_list: Array<Song>
+  title: string;
+  description: string;
+  author: string;
+  songs_list: Array<Song>;
 }
 class Extractor implements Playlist {
   private access = new SpotifyWebApi();
   private model: TSNE;
-  title:string = ""
-  description:string = ""
-  author:string = ""
-  songs_list: Array<Song> = []
+  title: string = "";
+  description: string = "";
+  author: string = "";
+  songs_list: Array<Song> = [];
 
   init() {
     if (process.env.VUE_APP_SPOTI_TKN)
@@ -43,21 +43,23 @@ class Extractor implements Playlist {
 
     return new Promise((resolve) => {
       this.access.getPlaylist(id).then((response) => {
-        this.title = response.body.name
-        this.author = response.body.owner.display_name ? response.body.owner.display_name : ""
-        this.description = response.body.description ? response.body.description : ""
-        response.body.tracks.items.forEach((song:any)=>{
+        this.title = response.body.name;
+        this.author = response.body.owner.display_name
+          ? response.body.owner.display_name
+          : "";
+        this.description = response.body.description
+          ? response.body.description
+          : "";
+        response.body.tracks.items.forEach((song: any) => {
           this.songs_list.push({
-            title:song.track.name,
+            title: song.track.name,
             artist: song.track.artists[0].name,
             img: song.track.album.images[1].url,
-            id: song.track.id
-          })
-          
+            id: song.track.id,
+          });
         });
-        resolve(this.songs_list)
-      })
-   
+        resolve(this.songs_list);
+      });
     });
   }
 
@@ -88,10 +90,10 @@ class Extractor implements Playlist {
   }
 
   trainModel(features: Array<number[]>): Array<number[]> {
-      this.model.init({ data: features });
-      this.model.run();
-      const out = this.model.getOutputScaled();
-      return out
+    this.model.init({ data: features });
+    this.model.run();
+    const out = this.model.getOutputScaled();
+    return out;
   }
 }
 

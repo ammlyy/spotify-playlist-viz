@@ -6,9 +6,9 @@ import Vuetify from "vuetify/lib";
 
 Vue.config.productionTip = false;
 dotenv.config();
-Vue.use(vuetify)
+Vue.use(vuetify);
 
 new Vue({
-  vuetify : new Vuetify(),
+  vuetify: new Vuetify(),
   render: (h) => h(App),
 }).$mount("#app");

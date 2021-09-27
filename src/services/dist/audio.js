@@ -24,7 +24,7 @@ var Extractor = /** @class */ (function () {
     var _this = this;
     var id = link.split("/")[4];
     this.features = [];
-    return new Promise(function (resolve, reject) {
+    return new Promise(function () {
       _this.access.getPlaylistTracks(id).then(
         function (data) {
           data.body.tracks.items.forEach(function (song) {

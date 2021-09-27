@@ -146,4 +146,5 @@ $font-family: "GothamLight";
   font-family: "GothamBold";
   color: white;
 }
-</style>>
+</style>
+>
