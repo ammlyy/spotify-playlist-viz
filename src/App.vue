@@ -1,9 +1,7 @@
 <template>
   <v-app id="inspire">
-
     <v-app-bar app color="black" flat>
       <v-toolbar-title class="title">Spotify Playlist Viz</v-toolbar-title>
-
     </v-app-bar>
 
     <v-main class="grey lighten-3">
@@ -31,17 +29,42 @@
         <v-row>
           <v-col cols="12" sm="9">
             <v-sheet rounded="lg">
-              <Canva />
+              <Canva ref="canva" @selectedSong="changeSong" />
             </v-sheet>
-            <v-card> 
-              <v-card-title>{{extractor.title}} </v-card-title>
-              <v-card-subtitle>{{extractor.author}} </v-card-subtitle>
-              <v-card-text> {{extractor.description}} </v-card-text>
+            <v-card v-if="selectable">
+              <v-card-title>{{ extractor.title }} </v-card-title>
+              <v-card-subtitle>{{ extractor.author }} </v-card-subtitle>
+              <v-card-text> {{ extractor.description }} </v-card-text>
             </v-card>
           </v-col>
 
           <v-col cols="12" sm="3">
-            <v-sheet rounded="lg" min-height="268"> </v-sheet>
+            <v-sheet rounded="lg" min-height="268" v>
+              <v-card>
+                <v-img
+                  :src="current_cover"
+                  height="300"
+                  max-height="300"
+                  max-width="300"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+
+                <v-card-title> {{ current_song }}</v-card-title>
+                <v-card-subtitle> {{ current_artist }}</v-card-subtitle>
+              </v-card>
+            </v-sheet>
           </v-col>
         </v-row>
       </v-container>
@@ -63,6 +86,10 @@ import Canva from "./components/Canva.vue";
 export default class App extends Vue {
   public link: string = "";
   public extractor: Extractor = new Extractor();
+  private selectable: boolean = false;
+  private current_song: string = "";
+  private current_artist: string = "";
+  private current_cover: string = "";
 
   mounted() {
     this.extractor.init();
@@ -71,12 +98,18 @@ export default class App extends Vue {
   compute(): void {
     this.extractor
       .fetchPlaylist(this.link)
-      .then((songs) =>this.extractor.extractFeatures(songs.map(s => s.id)))
+      .then((songs) => this.extractor.extractFeatures(songs.map((s) => s.id)))
       .then((features: number[][]) => this.extractor.trainModel(features))
       .then((points: any) => {
-        console.log(points)
-        this.$emit("dataChanged", points)
-        });
+        this.$emit("dataChanged", points);
+        this.selectable = true;
+      });
+  }
+
+  changeSong(event: any) {
+    this.current_song = this.extractor.songs_list[event].title;
+    this.current_artist = this.extractor.songs_list[event].artist;
+    this.current_cover = this.extractor.songs_list[event].img;
   }
 }
 </script>
