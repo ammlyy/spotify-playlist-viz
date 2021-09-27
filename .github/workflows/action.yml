@@ -1,7 +1,8 @@
 name: learn-github-actions
 on: [push]
 jobs:
-  my_first_job:
+  deploy:
+    runs-on: ubuntu-18.04
     steps:
       - name: Run build
         run: ./.github/scripts/build.sh
