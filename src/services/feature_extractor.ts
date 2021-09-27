@@ -5,6 +5,7 @@ import TSNE from "tsne-js";
 interface Song {
   title: string,
   artist: string,
+  img: string,
   id: string
 }
 
@@ -17,7 +18,6 @@ interface Playlist {
 class Extractor implements Playlist {
   private access = new SpotifyWebApi();
   private model: TSNE;
-  private songs: Array<string> = [];
   title:string = ""
   description:string = ""
   author:string = ""
@@ -28,18 +28,18 @@ class Extractor implements Playlist {
       this.access.setAccessToken(process.env.VUE_APP_SPOTI_TKN);
 
     this.model = new TSNE({
-      dim: 3,
+      dim: 2,
       perplexity: 30.0,
       earlyExaggeration: 5,
-      learningRate: 100.0,
-      nIter: 1000,
-      metric: "manhattan",
+      learningRate: 50.0,
+      nIter: 2000,
+      metric: "euclidean",
     });
   }
 
   fetchPlaylist(link: string): Promise<Array<Song>> {
     const id = link.split("/")[4];
-    this.songs = [];
+    this.songs_list = [];
 
     return new Promise((resolve) => {
       this.access.getPlaylist(id).then((response) => {
@@ -50,6 +50,7 @@ class Extractor implements Playlist {
           this.songs_list.push({
             title:song.track.name,
             artist: song.track.artists[0].name,
+            img: song.track.album.images[1].url,
             id: song.track.id
           })
           
