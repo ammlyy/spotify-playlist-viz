@@ -5,5 +5,5 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Run build
-        run: ../scripts/build.sh
+        run: ./.github/scripts/build.sh
         shell: bash
