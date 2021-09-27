@@ -1,9 +1,8 @@
 name: learn-github-actions
 on: [push]
 jobs:
-  check-bats-version:
-    runs-on: ubuntu-latest
+  my_first_job:
     steps:
-      - name: Run build script
-      run: ./.github/scripts/build.sh
-      shell: bash
+      - name: Run build
+        run: ./.github/scripts/build.sh
+        shell: bash
