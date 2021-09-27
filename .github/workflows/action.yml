@@ -1,0 +1,9 @@
+name: learn-github-actions
+on: [push]
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run build script
+      run: ./.github/scripts/build.sh
+      shell: bash
