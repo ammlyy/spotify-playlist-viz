@@ -22,11 +22,11 @@ jobs:
             ${{ runner.os }}-node-
 
       - run: npm ci
-      - run: npm test
-      - run: npm run generate
+      - run: npm run build
+      - run: ls
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.API_TOKEN }}
           publish_dir: ./dist
