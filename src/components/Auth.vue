@@ -21,15 +21,25 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import  Axios from 'axios'
 
 @Component
 export default class Auth extends Vue {
   public dialog = true;
 
   authRequest() {
-    this.dialog = false
-    console.log(process.env.VUE_APP_SPOTIFY_CLIENT_SECRET)
-}
+  Axios.post(
+        'https://accounts.spotify.com/api/token',
+        {'grant_type' : 'grant_type'}, 
+        {
+            headers: { 
+                'Authorization': Buffer.from(process.env.VUE_APP_SPOTIFY_CLIENT_ID + ':' + process.env.VUE_APP_SPOTIFY_CLIENT_SECRET, 'base64'),
+            }
+        }
+).then(response => {
+    console.log(response);
+});}
+
 }
 </script>
 
