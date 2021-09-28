@@ -25,13 +25,11 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Build
-        run: |
-        npm ci
-        npm run build
-      env:
-        VUE_APP_SPOTIFY_CLIENT_ID: ${{ secrets.VUE_APP_SPOTIFY_CLIENT_ID }}
-        VUE_APP_SPOTIFY_CLIENT_SECRET: ${{ secrets.VUE_APP_SPOTIFY_CLIENT_SECRET }}
-
+          run: npm ci
+          run: npm run build
+          env:
+            VUE_APP_SPOTIFY_CLIENT_ID: ${{ secrets.VUE_APP_SPOTIFY_CLIENT_ID }}
+            VUE_APP_SPOTIFY_CLIENT_SECRET: ${{ secrets.VUE_APP_SPOTIFY_CLIENT_SECRET }}
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
