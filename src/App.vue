@@ -71,43 +71,28 @@
       </v-container>
     </v-main>
 
-      <v-footer
-    dark
-    padless
-  >
-    <v-card
-      class="flex"
-      flat
-      tile
-    >
-      <v-card-title>
-        <v-btn
-          class="mx-4"
-          dark
-          icon
-          href='https://github.com/ammlyy/spotify-playlist-viz'
-          target="_blank" 
-
-        >
-          <v-icon size="24px">
-            mdi-github
-          </v-icon>
-        </v-btn>
-        <v-spacer></v-spacer>
-        <v-img
-          max-height="70"
-          max-width='150'
-          src="./assets/imgs/Spotify_Logo_RGB_Green.png"
-        ></v-img>
-
-
-      </v-card-title>
-
-      <v-card-text class="py-2 white--text text-center">
-        {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
-      </v-card-text>
-    </v-card>
-  </v-footer>
+    <v-footer dark padless>
+      <v-card class="flex" flat tile>
+        <v-card-title>
+          <v-btn
+            class="mx-4"
+            dark
+            icon
+            href="https://github.com/ammlyy/spotify-playlist-viz"
+            target="_blank"
+          >
+            <v-icon size="24px"> mdi-github </v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-img
+            max-height="70"
+            max-width="150"
+            src="./assets/imgs/Spotify_Logo_RGB_Green.png"
+            href="https://www.spotify.com/it/"
+          ></v-img>
+        </v-card-title>
+      </v-card>
+    </v-footer>
   </v-app>
 </template>
 
@@ -116,12 +101,12 @@ import { Component, Vue } from "vue-property-decorator";
 import { Extractor } from "./services/feature_extractor";
 
 import Canva from "./components/Canva.vue";
-import Auth from "./components/Auth.vue"
+import Auth from "./components/Auth.vue";
 
 @Component({
   components: {
     Canva,
-    Auth
+    Auth,
   },
 })
 export default class App extends Vue {

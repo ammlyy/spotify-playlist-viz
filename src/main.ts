@@ -1,4 +1,5 @@
 import Vue from "vue";
+import "./plugins/axios";
 import App from "./App.vue";
 import dotenv from "dotenv";
 import vuetify from "vuetify";
