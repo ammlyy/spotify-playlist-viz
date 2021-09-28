@@ -25,9 +25,9 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Build
-          run: npm ci
-          run: npm run build
-          env:
+        - run: npm ci
+        -  run: npm run build
+        -  env:
             VUE_APP_SPOTIFY_CLIENT_ID: ${{ secrets.VUE_APP_SPOTIFY_CLIENT_ID }}
             VUE_APP_SPOTIFY_CLIENT_SECRET: ${{ secrets.VUE_APP_SPOTIFY_CLIENT_SECRET }}
 
