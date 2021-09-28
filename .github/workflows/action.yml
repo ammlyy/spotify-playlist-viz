@@ -23,13 +23,14 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-              
-      - env:
+
+      - name: Build
+        run: |
+        npm ci
+        npm run build
+      env:
         VUE_APP_SPOTIFY_CLIENT_ID: ${{ secrets.VUE_APP_SPOTIFY_CLIENT_ID }}
         VUE_APP_SPOTIFY_CLIENT_SECRET: ${{ secrets.VUE_APP_SPOTIFY_CLIENT_SECRET }}
-
-      - run: npm ci
-      - run: npm run build
 
 
       - name: deploy
