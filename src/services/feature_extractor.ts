@@ -44,6 +44,7 @@ this.model = new TSNE({
     const TKN = params.get('access_token') 
     this.access.setAccessToken(TKN ? TKN : '');
     const id = link.split("/")[4].split('?')[0];
+    console.log(id)
     this.songs_list = [];
 
     return new Promise((resolve) => {
