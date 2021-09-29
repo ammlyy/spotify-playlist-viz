@@ -42,6 +42,7 @@ this.model = new TSNE({
     const url = String(window.location).split('#')[1]
     const params = new URLSearchParams(url)
     const TKN = params.get('access_token') 
+    console.log(TKN)
     this.access.setAccessToken(TKN ? TKN : '');
     const id = link.split("/")[4].split('?')[0];
     console.log(id)
