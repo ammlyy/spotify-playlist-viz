@@ -66,12 +66,6 @@ export default class Canva extends Vue {
 
   instantiate(length: number, positions: number[][]) {
     this.clear();
-    const axesHelper = new THREE.AxesHelper(5).setColors(
-      new THREE.Color(255, 255, 25),
-      new THREE.Color(255, 255, 25),
-      new THREE.Color(255, 255, 25)
-    );
-    this.scene.add(axesHelper);
 
     let matrix = new THREE.Matrix4();
     this.mesh = new THREE.InstancedMesh(this.geometry, this.material, length);
@@ -87,9 +81,9 @@ export default class Canva extends Vue {
 
   translateMatrix(matrix: THREE.Matrix4, xyz: number[]) {
     const position = new THREE.Vector3();
-    position.x = xyz[0] * 3;
-    position.y = xyz[1];
-    position.z = 0;
+    position.x = xyz[0] * 2;
+    position.y = xyz[1] * 2;
+    position.z = xyz[2] / 2;
 
     matrix.setPosition(position); // write new positon back
 

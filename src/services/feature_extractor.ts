@@ -29,7 +29,7 @@ class Extractor implements Playlist {
 
 
 this.model = new TSNE({
-      dim: 2,
+      dim: 3,
       perplexity: 30.0,
       earlyExaggeration: 5,
       learningRate: 50.0,
