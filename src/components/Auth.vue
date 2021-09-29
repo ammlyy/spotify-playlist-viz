@@ -39,8 +39,8 @@ export default class Auth extends Vue {
   }
 
   containsToken(){
-    if(window.location.hash) return true
-    else return false
+    if(window.location.hash) return false
+    else return true
   }
 }
 
