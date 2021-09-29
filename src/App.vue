@@ -117,8 +117,7 @@ export default class App extends Vue {
   private current_artist: string = "";
   private current_cover: string = "";
 
-  mounted() {
-    this.extractor.init();
+  updated() {
   }
 
   compute(): void {

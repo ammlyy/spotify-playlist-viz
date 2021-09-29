@@ -17,17 +17,18 @@ interface Playlist {
 }
 class Extractor implements Playlist {
   private access = new SpotifyWebApi();
+  
   private model: TSNE;
   title: string = "";
   description: string = "";
   author: string = "";
   songs_list: Array<Song> = [];
 
-  init() {
-    if (process.env.VUE_APP_SPOTI_TKN)
-      this.access.setAccessToken(process.env.VUE_APP_SPOTI_TKN);
+  constructor() {
 
-    this.model = new TSNE({
+
+
+this.model = new TSNE({
       dim: 2,
       perplexity: 30.0,
       earlyExaggeration: 5,
