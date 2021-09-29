@@ -39,12 +39,11 @@ this.model = new TSNE({
   }
 
   fetchPlaylist(link: string): Promise<Array<Song>> {
-    console.log(String(window.location).split('#')[1])
     const url = String(window.location).split('#')[1]
     const params = new URLSearchParams(url)
     const TKN = params.get('access_token') 
     this.access.setAccessToken(TKN ? TKN : '');
-    const id = link.split("/")[4];
+    const id = link.split("/")[4].split('?')[0];
     this.songs_list = [];
 
     return new Promise((resolve) => {
