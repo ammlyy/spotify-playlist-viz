@@ -28,7 +28,7 @@ export default class Auth extends Vue {
 
   authRequest() {
   let url = 'https://accounts.spotify.com/authorize';
-    url += '&client_id=' + encodeURIComponent( ? process.env.VUE_APP_SPOTIFY_CLIENT_ID : '');
+    url += '&client_id=' + encodeURIComponent(process.env.VUE_APP_SPOTIFY_CLIENT_ID ? process.env.VUE_APP_SPOTIFY_CLIENT_ID : '');
     url += '?response_type=token';
     url += '&redirect_uri=' + encodeURIComponent(window.location.toString());
     window.location.replace(url) 
