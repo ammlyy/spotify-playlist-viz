@@ -6,6 +6,22 @@
 import { Component, Vue } from "vue-property-decorator";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { GUI } from "three/examples/jsm/libs/dat.gui.module"
+
+/*enum Features{
+  Acousticness = 0,
+  Danceability = 1,
+  Instrumentalness = 2,
+  Energy = 3,
+  Key = 4,
+  Liveness = 5,
+  Loudness = 6,
+  Mode = 7,
+  Speechiness= 8,
+  Tempo = 9,
+  TimeSignature = 10,
+  Valence = 11
+}*/
 
 @Component
 export default class Canva extends Vue {
@@ -43,7 +59,7 @@ export default class Canva extends Vue {
         canvas: container,
         alpha: true,
       });
-      this.renderer.setClearColor(0x000000, 1);
+      this.renderer.setClearColor(0x000000, 0);
       this.renderer.setSize(container.clientWidth, container.clientHeight);
       this.renderer.setPixelRatio(window.devicePixelRatio);
 
@@ -55,6 +71,13 @@ export default class Canva extends Vue {
       this.controls = new OrbitControls(this.camera, container);
       this.controls.minDistance = 0.7;
       this.controls.maxDistance = 5;
+
+      const effect_controller = {
+        name: 'nome'
+      }
+      const gui = new GUI()
+      const xyz = gui.addFolder("XYZ")
+      xyz.add(effect_controller, 'name')
 
       this.animate();
 
@@ -83,7 +106,7 @@ export default class Canva extends Vue {
     const position = new THREE.Vector3();
     position.x = xyz[0] * 2;
     position.y = xyz[1] * 2;
-    position.z = xyz[2] / 2;
+    position.z = xyz[2];
 
     matrix.setPosition(position); // write new positon back
 

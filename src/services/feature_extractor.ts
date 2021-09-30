@@ -17,7 +17,7 @@ interface Playlist {
 }
 class Extractor implements Playlist {
   private access = new SpotifyWebApi();
-  
+
   private model: TSNE;
   title: string = "";
   description: string = "";
@@ -25,10 +25,7 @@ class Extractor implements Playlist {
   songs_list: Array<Song> = [];
 
   constructor() {
-
-
-
-this.model = new TSNE({
+    this.model = new TSNE({
       dim: 3,
       perplexity: 30.0,
       earlyExaggeration: 5,
@@ -39,13 +36,12 @@ this.model = new TSNE({
   }
 
   fetchPlaylist(link: string): Promise<Array<Song>> {
-    const url = String(window.location).split('#')[1]
-    const params = new URLSearchParams(url)
-    const TKN = params.get('access_token') 
-    console.log(TKN)
-    this.access.setAccessToken(TKN ? TKN : '');
-    const id = link.split("/")[4].split('?')[0];
-    console.log(id)
+    const url = String(window.location).split("#")[1];
+    const params = new URLSearchParams(url);
+    const TKN = params.get("access_token");
+    console.log(TKN);
+    this.access.setAccessToken(TKN ? TKN : "");
+    const id = link.split("/")[4].split("?")[0];
     this.songs_list = [];
 
     return new Promise((resolve) => {

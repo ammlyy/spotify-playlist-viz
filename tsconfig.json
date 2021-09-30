@@ -17,9 +17,8 @@
       "webpack-env"
     ],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"],
+      "three/examples/jsm/libs/dat.gui.module": ["./node_modules/@types/dat.gui"]
     },
     "lib": [
       "esnext",
